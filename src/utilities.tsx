@@ -14,16 +14,6 @@ const labelMap: any = {
   12: { name: "tiger", color: "purple" },
 };
 
-interface Props {
-  boxes: any;
-  classes: any;
-  scores: any;
-  threshold: any;
-  imgWidth: any;
-  imgHeight: any;
-  ctx: any;
-}
-
 // Define a drawing function
 export const drawRect = (
   boxes: any,
