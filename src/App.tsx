@@ -1,5 +1,5 @@
 // Import dependencies
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import Webcam from "react-webcam";
 import "./App.css";
@@ -81,9 +81,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    runCoco();
-  }, []);
+  runCoco();
 
   return (
     <div className="App">
