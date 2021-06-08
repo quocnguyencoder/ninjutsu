@@ -12,6 +12,8 @@ const labelMap: any = {
   10: { name: "rat", color: "purple" },
   11: { name: "snake", color: "purple" },
   12: { name: "tiger", color: "purple" },
+  13: { name: "clone", color: "purple" },
+  14: { name: "clap", color: "purple" },
 };
 
 // Define a drawing function
@@ -19,13 +21,13 @@ export const drawRect = (
   boxes: any,
   classes: any,
   scores: any,
-  threshold: any,
+  threshold: number,
   imgWidth: number,
   imgHeight: number,
   ctx: CanvasRenderingContext2D
 ) => {
   for (let i = 0; i <= boxes.length; i++) {
-    if (boxes[i] && classes[i] && scores[i] > 0.6) {
+    if (boxes[i] && classes[i] && scores[i] > threshold) {
       console.log(scores[i]);
       // Extract variables
       const [y, x, height, width] = boxes[i];

@@ -11,7 +11,7 @@ function App() {
 
   const runCoco = async () => {
     const net = await tf.loadGraphModel(
-      "https://tsjs-real-time-model.s3.jp-tok.cloud-object-storage.appdomain.cloud/undefinedmodel.json"
+      "https://tsjs-real-time-model.s3.jp-tok.cloud-object-storage.appdomain.cloud/model.json"
     );
 
     //  Loop and detect hands
