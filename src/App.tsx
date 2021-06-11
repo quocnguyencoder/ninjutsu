@@ -84,39 +84,40 @@ function App() {
   runCoco();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Webcam
-          ref={webcamRef}
-          muted={true}
-          style={{
-            //display: "none",
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zIndex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
+    <></>
+    // <div className="App">
+    //   <header className="App-header">
+    //     <Webcam
+    //       ref={webcamRef}
+    //       muted={true}
+    //       style={{
+    //         //display: "none",
+    //         position: "absolute",
+    //         marginLeft: "auto",
+    //         marginRight: "auto",
+    //         left: 0,
+    //         right: 0,
+    //         textAlign: "center",
+    //         zIndex: 9,
+    //         width: 640,
+    //         height: 480,
+    //       }}
+    //     />
 
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zIndex: 9,
-          }}
-        />
-      </header>
-    </div>
+    //     <canvas
+    //       ref={canvasRef}
+    //       style={{
+    //         position: "absolute",
+    //         marginLeft: "auto",
+    //         marginRight: "auto",
+    //         left: 0,
+    //         right: 0,
+    //         textAlign: "center",
+    //         zIndex: 9,
+    //       }}
+    //     />
+    //   </header>
+    // </div>
   );
 }
 
