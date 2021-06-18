@@ -1,9 +1,8 @@
 import {
   Avatar,
+  Box,
   Card,
   Button,
-  CardMedia,
-  CardHeader,
   CardContent,
   Typography,
   ListItem,
@@ -67,16 +66,32 @@ export default function HandSeal({ net, webcamRef }: Props) {
     audio.play();
   };
 
+  const playBGM = (name: string) => {
+    const audio = document.getElementById(name) as HTMLVideoElement;
+    //console.log("play");
+    audio.volume = 0.3;
+    audio.play();
+  };
+  const stopBGM = (name: string) => {
+    const audio = document.getElementById(name) as HTMLVideoElement;
+    //console.log("play");
+    audio.pause();
+    audio.currentTime = 0;
+  };
+
   const startGame = () => {
+    playBGM("bgmAudio");
     setStatus("started");
   };
   const stopGame = () => {
     index = 0;
+    stopBGM("bgmAudio");
     setStatus("begin");
   };
   const restartGame = () => {
     index = 0;
     setCurrentSeal("");
+    stopBGM("bgmAudio");
     setStatus("begin");
   };
 
@@ -168,7 +183,10 @@ export default function HandSeal({ net, webcamRef }: Props) {
       {currentSeal !== "" ? (
         status === "done" ? (
           <>
-            <CheckCircleOutlineIcon fontSize="large" />
+            <CheckCircleOutlineIcon
+              style={{ width: "70px", height: "70px" }}
+              fontSize="large"
+            />
             <Typography gutterBottom variant="body2" component="h2">
               Well Done!
             </Typography>
@@ -176,6 +194,7 @@ export default function HandSeal({ net, webcamRef }: Props) {
         ) : (
           <>
             <Avatar
+              style={{ width: "70px", height: "70px" }}
               src={handSeals[currentSeal]["img"]}
               alt={handSeals[currentSeal]["name"]}
             />
@@ -185,7 +204,10 @@ export default function HandSeal({ net, webcamRef }: Props) {
           </>
         )
       ) : (
-        <PlayCircleOutlineIcon fontSize="large" />
+        <PlayCircleOutlineIcon
+          style={{ width: "90px", height: "90px" }}
+          fontSize="large"
+        />
       )}
       {/* <Typography gutterBottom variant="body2" component="h2">
         {status}
@@ -200,37 +222,44 @@ export default function HandSeal({ net, webcamRef }: Props) {
       <audio id="jutsuAudio" preload="true">
         <source src={jutsu.soundURL}></source>
       </audio>
-      {status === "done" ? (
-        <Button
-          onClick={() => {
-            restartGame();
-          }}
-          variant="contained"
-          color="primary"
-        >
-          restart
-        </Button>
-      ) : status === "begin" ? (
-        <Button
-          onClick={() => {
-            startGame();
-          }}
-          variant="contained"
-          color="primary"
-        >
-          start
-        </Button>
-      ) : (
-        <Button
-          onClick={() => {
-            stopGame();
-          }}
-          variant="contained"
-          color="secondary"
-        >
-          stop
-        </Button>
-      )}
+      <audio id="bgmAudio" preload="true">
+        <source
+          src={`${process.env.PUBLIC_URL}/audio/Naruto OST 1 - Strong and Strike.mp3`}
+        ></source>
+      </audio>
+      <Box style={{ marginTop: "4%" }}>
+        {status === "done" ? (
+          <Button
+            onClick={() => {
+              restartGame();
+            }}
+            variant="contained"
+            color="primary"
+          >
+            restart
+          </Button>
+        ) : status === "begin" ? (
+          <Button
+            onClick={() => {
+              startGame();
+            }}
+            variant="contained"
+            color="primary"
+          >
+            start
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              stopGame();
+            }}
+            variant="contained"
+            color="secondary"
+          >
+            stop
+          </Button>
+        )}
+      </Box>
     </Card>
   );
 }

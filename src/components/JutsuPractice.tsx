@@ -84,6 +84,14 @@ export default function JutsuPractice({ net }: Props) {
                 );
               })}
             </List>
+            <iframe
+              title="Practice background music"
+              id="practiceBGM"
+              allow="autoplay"
+              src={`${process.env.PUBLIC_URL}/audio/Naruto OST 1 - Narutos Daily Life.mp3`}
+              frameBorder="0"
+              style={{ display: "none" }}
+            ></iframe>
           </Route>
         </Switch>
       </Router>
