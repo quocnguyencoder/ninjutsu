@@ -11,6 +11,7 @@ export default function Home() {
     e.preventDefault();
     history.push(`/${name}`);
   };
+
   return (
     <>
       <CardMedia
@@ -35,6 +36,14 @@ export default function Home() {
         >
           Test
         </Button>
+        <iframe
+          title="Home background music"
+          id="homeBGM"
+          allow="autoplay"
+          src={`${process.env.PUBLIC_URL}/audio/Naruto OST 1 -Naruto Main Theme.mp3`}
+          frameBorder="0"
+          style={{ display: "none" }}
+        ></iframe>
       </Box>
     </>
   );

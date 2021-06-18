@@ -41,10 +41,11 @@ function App() {
             </Switch>
           </Router>
         </Container>
-        <Box style={{ color: "white" }}>
+
+        {/* <Box style={{ color: "white" }}>
           <br />
           <em>Ninjtsu, QuocNguyen612k 2021</em>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

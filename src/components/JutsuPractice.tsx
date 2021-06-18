@@ -39,20 +39,34 @@ export default function JutsuPractice({ net }: Props) {
 
   return (
     <Box className={classes.jutsuPracticeWrapper}>
-      <IconButton size="small" edge="start" onClick={goBack}>
-        <ArrowBackIosIcon color="disabled" />
-        <Typography variant="body1" display="inline">
-          Go back
-        </Typography>
-      </IconButton>
+      <header style={{ width: "100%", marginTop: "3%" }}>
+        <IconButton
+          style={{ color: "white" }}
+          size="small"
+          edge="start"
+          onClick={goBack}
+        >
+          <ArrowBackIosIcon />
+          <Typography variant="body1" display="inline">
+            Go back
+          </Typography>
+        </IconButton>
+      </header>
+
       <Router>
         <Switch>
           <Route exact path="/practice/:id">
             <HandSeal net={net} webcamRef={webcamRef} />
           </Route>
           <Route exact path="/practice">
-            <h2>Practice List</h2>
-            <List>
+            <Typography
+              style={{ marginTop: "2%" }}
+              variant="h4"
+              color="textSecondary"
+            >
+              Practice List
+            </Typography>
+            <List className={classes.jutsuList}>
               {jutsuList.map((jutsu) => {
                 return (
                   <ListItem

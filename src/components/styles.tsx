@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: "100vh",
+      maxHeight: "100vh",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -39,12 +40,19 @@ export const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(10),
       height: "70%",
       backgroundImage: `url("${scroll}")`,
-      backgroundPosition: "left",
+      backgroundPosition: "center",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+    },
+    jutsuList: {
+      overflow: "auto",
+      flex: "1",
+      marginTop: theme.spacing(0.5),
+      marginLeft: theme.spacing(4),
+      marginBottom: theme.spacing(10),
     },
   })
 );

@@ -1,10 +1,23 @@
-import { Card } from "@material-ui/core";
+import {
+  Avatar,
+  Card,
+  Button,
+  CardMedia,
+  CardHeader,
+  CardContent,
+  Typography,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@material-ui/core";
 import Webcam from "react-webcam";
 import { useState, useEffect, useRef } from "react";
 import { handSeals } from "./utilities";
 import * as tf from "@tensorflow/tfjs";
 import { jutsuList } from "./Ninjutsu";
 import { useParams } from "react-router-dom";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
 interface MatchParams {
   id: string;
@@ -50,7 +63,7 @@ export default function HandSeal({ net, webcamRef }: Props) {
 
   const play = (name: string) => {
     const audio = document.getElementById(name) as HTMLVideoElement;
-    console.log("play");
+    //console.log("play");
     audio.play();
   };
 
@@ -63,6 +76,7 @@ export default function HandSeal({ net, webcamRef }: Props) {
   };
   const restartGame = () => {
     index = 0;
+    setCurrentSeal("");
     setStatus("begin");
   };
 
@@ -129,27 +143,54 @@ export default function HandSeal({ net, webcamRef }: Props) {
   return (
     <Card
       style={{
-        width: "70%",
+        width: "100%",
+        height: "80%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         backgroundColor: "transparent",
+        maxHeight: "80%",
+        gap: "1px",
       }}
     >
-      <h1>{jutsu.name}</h1>
-      <h4>{jutsu.combo.toString()}</h4>
+      <CardContent>
+        <Typography gutterBottom variant="h4" component="h2">
+          {jutsu.name}
+        </Typography>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar alt="flag" src={jutsu.type} />
+          </ListItemAvatar>
+          <ListItemText primary={`Combo: ${jutsu.combo.toString()}`} />
+        </ListItem>
+      </CardContent>
+
       {currentSeal !== "" ? (
-        <>
-          <img
-            src={handSeals[currentSeal]["img"]}
-            alt={handSeals[currentSeal]["name"]}
-          />
-          <h2>{handSeals[currentSeal]["name"]}</h2>
-        </>
+        status === "done" ? (
+          <>
+            <CheckCircleOutlineIcon fontSize="large" />
+            <Typography gutterBottom variant="body2" component="h2">
+              Well Done!
+            </Typography>
+          </>
+        ) : (
+          <>
+            <Avatar
+              src={handSeals[currentSeal]["img"]}
+              alt={handSeals[currentSeal]["name"]}
+            />
+            <Typography gutterBottom variant="body2" component="h2">
+              {handSeals[currentSeal]["name"]}
+            </Typography>
+          </>
+        )
       ) : (
-        <h1> </h1>
+        <PlayCircleOutlineIcon fontSize="large" />
       )}
-      <h1>{status}</h1>
+      {/* <Typography gutterBottom variant="body2" component="h2">
+        {status}
+      </Typography> */}
+
       <audio id="chanelingAudio" preload="true">
         <source src={`${process.env.PUBLIC_URL}/audio/chaneling.mp3`}></source>
       </audio>
@@ -160,29 +201,35 @@ export default function HandSeal({ net, webcamRef }: Props) {
         <source src={jutsu.soundURL}></source>
       </audio>
       {status === "done" ? (
-        <button
+        <Button
           onClick={() => {
             restartGame();
           }}
+          variant="contained"
+          color="primary"
         >
           restart
-        </button>
+        </Button>
       ) : status === "begin" ? (
-        <button
+        <Button
           onClick={() => {
             startGame();
           }}
+          variant="contained"
+          color="primary"
         >
           start
-        </button>
+        </Button>
       ) : (
-        <button
+        <Button
           onClick={() => {
             stopGame();
           }}
+          variant="contained"
+          color="secondary"
         >
           stop
-        </button>
+        </Button>
       )}
     </Card>
   );
