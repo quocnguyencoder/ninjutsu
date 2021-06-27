@@ -1,122 +1,53 @@
-// Import dependencies
-import { useRef } from "react";
+import { CssBaseline, Container, Box } from "@material-ui/core";
+import JutsuPractice from "./components/JutsuPractice";
+import Test from "./components/Test";
+import Home from "./components/Home";
 import * as tf from "@tensorflow/tfjs";
-import Webcam from "react-webcam";
-import "./App.css";
-import { drawRect } from "./utilities";
+import { useState, useEffect } from "react";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { useStyles } from "./components/styles";
 
 function App() {
-  const webcamRef = useRef<Webcam>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [model, setModel] = useState<tf.GraphModel>();
+  const classes = useStyles();
 
-  const runCoco = async () => {
-    const net = await tf.loadGraphModel(
-      "https://tsjs-real-time-model.s3.jp-tok.cloud-object-storage.appdomain.cloud/model.json"
-    );
-
-    //  Loop and detect hands
-    setInterval(() => {
-      detect(net);
-    }, 16.7);
-  };
-
-  const detect = async (net: any) => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video!.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video!.videoWidth;
-      const videoHeight = webcamRef.current.video!.videoHeight;
-
-      // Set video width
-      webcamRef.current.video!.width = videoWidth;
-      webcamRef.current.video!.height = videoHeight;
-
-      // Set canvas height and width
-      canvasRef.current!.width = videoWidth;
-      canvasRef.current!.height = videoHeight;
-
-      // 4. TODO - Make Detections
-      const img = tf.browser.fromPixels(video!);
-      const resized = tf.image.resizeBilinear(img, [640, 480]);
-      const casted = resized.cast("int32");
-      const expanded = casted.expandDims(0);
-      const obj = await net.executeAsync(expanded);
-      console.log(obj);
-
-      const boxes = await obj[1].array();
-      const classes = await obj[2].array();
-      const scores = await obj[4].array();
-
-      canvasRef.current!.width = videoWidth;
-      canvasRef.current!.height = videoHeight;
-      // Draw mesh
-      const ctx = canvasRef.current!.getContext(
-        "2d"
-      ) as CanvasRenderingContext2D;
-
-      // 5. TODO - Update drawing utility
-      // drawSomething(obj, ctx)
-      requestAnimationFrame(() => {
-        drawRect(
-          boxes[0],
-          classes[0],
-          scores[0],
-          0.8,
-          videoWidth,
-          videoHeight,
-          ctx
-        );
-      });
-
-      tf.dispose(img);
-      tf.dispose(resized);
-      tf.dispose(casted);
-      tf.dispose(expanded);
-      tf.dispose(obj);
-    }
-  };
-
-  runCoco();
+  useEffect(() => {
+    const fetchModel = async () => {
+      const net = await tf.loadGraphModel(
+        "https://tsjs-real-time-model.s3.jp-tok.cloud-object-storage.appdomain.cloud/model.json"
+      );
+      console.log(net);
+      setModel(net);
+    };
+    fetchModel();
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Webcam
-          ref={webcamRef}
-          muted={true}
-          style={{
-            //display: "none",
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zIndex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
+    <>
+      <CssBaseline />
+      <Box className={classes.root}>
+        <Container style={{ height: "100vh" }} maxWidth="sm">
+          <Router>
+            <Switch>
+              <Route path="/practice">
+                {model !== undefined && <JutsuPractice net={model!} />}
+              </Route>
+              <Route exact path="/test">
+                {model !== undefined && <Test net={model!} />}
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </Router>
+        </Container>
 
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zIndex: 9,
-          }}
-        />
-      </header>
-    </div>
+        {/* <Box style={{ color: "white" }}>
+          <br />
+          <em>Ninjtsu, QuocNguyen612k 2021</em>
+        </Box> */}
+      </Box>
+    </>
   );
 }
 
